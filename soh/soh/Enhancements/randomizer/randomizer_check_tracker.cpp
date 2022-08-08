@@ -83,7 +83,7 @@ typedef enum {
 
 RandomizerRegion currentRegion = RR_UNKNOWN;
 
-void setCurrentRegion() {
+void setRegionByCurrentSceneID() {
     switch (gGlobalCtx->sceneNum) {
         case SCENE_SPOT04:
         case SCENE_KOKIRI_HOME:
@@ -2217,12 +2217,9 @@ void drawCheck(int i) {
     }
 
     DrawGroupWithBorder([&]() {
-        const char* checkName = CheckEnumToName[gSaveContext.itemLocations[i].check].c_str();
-        if (checkName != nullptr && checkName != "") {
-            ImGui::Checkbox(checkName, &checks[i]);
-            if (showSpoilers) {
-                ImGui::Text("Item: %s", GetEnumToName[gSaveContext.itemLocations[i].get].c_str());
-            }
+        ImGui::Checkbox(CheckEnumToName[gSaveContext.itemLocations[i].check].c_str(), &checks[i]);
+        if (showSpoilers) {
+            ImGui::Text("Item: %s", GetEnumToName[gSaveContext.itemLocations[i].get].c_str());
         }
     });
 }
@@ -2291,13 +2288,14 @@ void DrawTracker() {
     if (selectedRegion > 0)
         currentRegion = static_cast<RandomizerRegion>(selectedRegion);
     else
-        setCurrentRegion(); // set current region by gGlobalCtx->sceneNum
+        setRegionByCurrentSceneID();
 
     if (showAll) {
         ImGui::Text("Checks:");
     } else {
         ImGui::Text("Checks in %s:", RegionToString[currentRegion].c_str());
     }
+
     DrawGroupWithBorder([&]() {
         // for (int i = 0; i < ARRAY_COUNT(gSaveContext.itemLocations); i++) {
         for (int i = 0; i < 490; i++) {
