@@ -2270,7 +2270,7 @@ void DrawTracker() {
         RegionToString[RR_GANONS_CASTLE].c_str(),
     };
 
-    ImGui::Text("Options");
+    ImGui::Text("Options:");
     DrawGroupWithBorder([&]() {
         ImGui::Checkbox("Show Checked", &showChecked);
         ImGui::SameLine();
@@ -2281,12 +2281,12 @@ void DrawTracker() {
         ImGui::Checkbox("Show All Regions", &showAll);
         ImGui::SameLine();
         ImGui::Checkbox("Show Spoilers", &showSpoilers);
+
+        ImGui::Text("Select Region:");
         ImGui::SameLine();
+        SohImGui::EnhancementCombobox("gMapTrackerSelectedRegion", regionStrings, 35, 0);
     });
 
-    ImGui::Text("Select Region:");
-    ImGui::SameLine();
-    SohImGui::EnhancementCombobox("gMapTrackerSelectedRegion", regionStrings, 35, 0);
     selectedRegion = (RandomizerRegion)CVar_GetS32("gMapTrackerSelectedRegion", 0);
     if (selectedRegion > 0)
         currentRegion = static_cast<RandomizerRegion>(selectedRegion);
