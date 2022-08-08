@@ -2026,6 +2026,7 @@ std::vector<RandomizerCheck> gsChecks = { RC_KF_GS_KNOW_IT_ALL_HOUSE,
                                           RC_LW_GS_BEAN_PATCH_NEAR_BRIDGE,
                                           RC_LW_GS_BEAN_PATCH_NEAR_THEATER,
                                           RC_LW_GS_ABOVE_THEATER,
+                                          RC_SFM_GS,
                                           RC_HF_GS_COW_GROTTO,
                                           RC_HF_GS_NEAR_KAK_GROTTO,
                                           RC_MARKET_GS_GUARD_HOUSE,
@@ -2070,9 +2071,11 @@ std::vector<RandomizerCheck> gsChecks = { RC_KF_GS_KNOW_IT_ALL_HOUSE,
                                           RC_GV_GS_PILLAR,
                                           RC_GF_GS_TOP_FLOOR,
                                           RC_GF_GS_ARCHERY_RANGE,
+                                          RC_WASTELAND_GS,
                                           RC_COLOSSUS_GS_BEAN_PATCH,
                                           RC_COLOSSUS_GS_TREE,
                                           RC_COLOSSUS_GS_HILL,
+                                          RC_OGC_GS,
                                           RC_DEKU_TREE_GS_COMPASS_ROOM,
                                           RC_DEKU_TREE_GS_BASEMENT_VINES,
                                           RC_DEKU_TREE_GS_BASEMENT_GATE,
@@ -2118,6 +2121,43 @@ std::vector<RandomizerCheck> gsChecks = { RC_KF_GS_KNOW_IT_ALL_HOUSE,
                                           RC_ICE_CAVERN_GS_HEART_PIECE_ROOM,
                                           RC_ICE_CAVERN_GS_PUSH_BLOCK_ROOM };
 
+// business scrubs without a major item
+std::vector<RandomizerCheck> scrubChecks = {
+    RC_LW_DEKU_SCRUB_NEAR_DEKU_THEATER_LEFT,
+    RC_LW_DEKU_SCRUB_NEAR_DEKU_THEATER_RIGHT,
+    RC_LW_DEKU_SCRUB_GROTTO_REAR,
+    RC_SFM_DEKU_SCRUB_GROTTO_FRONT,
+    RC_SFM_DEKU_SCRUB_GROTTO_REAR,
+    RC_LLR_DEKU_SCRUB_GROTTO_LEFT,
+    RC_LLR_DEKU_SCRUB_GROTTO_CENTER,
+    RC_LLR_DEKU_SCRUB_GROTTO_RIGHT,
+    RC_GC_DEKU_SCRUB_GROTTO_LEFT,
+    RC_GC_DEKU_SCRUB_GROTTO_CENTER,
+    RC_GC_DEKU_SCRUB_GROTTO_RIGHT,
+    RC_DMC_DEKU_SCRUB,
+    RC_DMC_DEKU_SCRUB_GROTTO_LEFT,
+    RC_DMC_DEKU_SCRUB_GROTTO_CENTER,
+    RC_DMC_DEKU_SCRUB_GROTTO_RIGHT,
+    RC_ZR_DEKU_SCRUB_GROTTO_FRONT,
+    RC_ZR_DEKU_SCRUB_GROTTO_REAR,
+    RC_LH_DEKU_SCRUB_GROTTO_LEFT,
+    RC_LH_DEKU_SCRUB_GROTTO_CENTER,
+    RC_LH_DEKU_SCRUB_GROTTO_RIGHT,
+    RC_GV_DEKU_SCRUB_GROTTO_FRONT,
+    RC_GV_DEKU_SCRUB_GROTTO_REAR,
+    RC_COLOSSUS_DEKU_SCRUB_GROTTO_FRONT,
+    RC_COLOSSUS_DEKU_SCRUB_GROTTO_REAR,
+    RC_DODONGOS_CAVERN_DEKU_SCRUB_SIDE_ROOM_NEAR_DODONGOS,
+    RC_DODONGOS_CAVERN_DEKU_SCRUB_LOBBY,
+    RC_DODONGOS_CAVERN_DEKU_SCRUB_NEAR_BOMB_BAG_LEFT,
+    RC_DODONGOS_CAVERN_DEKU_SCRUB_NEAR_BOMB_BAG_RIGHT,
+    RC_JABU_JABUS_BELLY_DEKU_SCRUB,
+    RC_GANONS_CASTLE_DEKU_SCRUB_LEFT,
+    RC_GANONS_CASTLE_DEKU_SCRUB_CENTER_LEFT,
+    RC_GANONS_CASTLE_DEKU_SCRUB_CENTER_RIGHT,
+    RC_GANONS_CASTLE_DEKU_SCRUB_RIGHT,
+};
+
 bool isShopCheck(RandomizerCheck check) {
     if (std::find(shopChecks.begin(), shopChecks.end(), check) != shopChecks.end()) {
         return true;
@@ -2125,15 +2165,22 @@ bool isShopCheck(RandomizerCheck check) {
     return false;
 }
 
-bool isIgnoredCheck(RandomizerCheck check) {
+bool isIgnoredCheck(const RandomizerCheck check) {
     if (std::find(ignoredChecks.begin(), ignoredChecks.end(), check) != ignoredChecks.end()) {
         return true;
     }
     return false;
 }
 
-bool isGsCheck(RandomizerCheck check) {
+bool isGsCheck(const RandomizerCheck check) {
     if (std::find(gsChecks.begin(), gsChecks.end(), check) != gsChecks.end()) {
+        return true;
+    }
+    return false;
+}
+
+bool isScrubCheck(const RandomizerCheck check) {
+    if (std::find(scrubChecks.begin(), scrubChecks.end(), check) != scrubChecks.end()) {
         return true;
     }
     return false;
@@ -2146,10 +2193,11 @@ static bool showGs = false;
 static bool showAll = false;
 
 void drawCheck(int i) {
-    // skip checked Checks, shop items, ignored checks and skulltulas, if set so
+    // ignore checked Checks, shop items, ignored Checks, Scrubs and Golden Skulltulas (if set so)
     if ((!showChecked && checks[i]) || isIgnoredCheck(gSaveContext.itemLocations[i].check) ||
         isShopCheck(gSaveContext.itemLocations[i].check) ||
-        (!showGs && isGsCheck(gSaveContext.itemLocations[i].check))) {
+        (!showGs && isGsCheck(gSaveContext.itemLocations[i].check)) ||
+        isScrubCheck(gSaveContext.itemLocations[i].check)) {
         return;
     }
 
