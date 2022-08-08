@@ -1947,13 +1947,85 @@ std::unordered_map<RandomizerGet, std::string> GetEnumToName = {
     { RG_HINT, "Indice" }
 };
 
+std::vector<RandomizerCheck> shopChecks = { RC_KF_SHOP_ITEM_1,
+                                            RC_KF_SHOP_ITEM_2,
+                                            RC_KF_SHOP_ITEM_3,
+                                            RC_KF_SHOP_ITEM_4,
+                                            RC_KF_SHOP_ITEM_5,
+                                            RC_KF_SHOP_ITEM_6,
+                                            RC_KF_SHOP_ITEM_7,
+                                            RC_KF_SHOP_ITEM_8,
+                                            RC_KAK_POTION_SHOP_ITEM_1,
+                                            RC_KAK_POTION_SHOP_ITEM_2,
+                                            RC_KAK_POTION_SHOP_ITEM_3,
+                                            RC_KAK_POTION_SHOP_ITEM_4,
+                                            RC_KAK_POTION_SHOP_ITEM_5,
+                                            RC_KAK_POTION_SHOP_ITEM_6,
+                                            RC_KAK_POTION_SHOP_ITEM_7,
+                                            RC_KAK_POTION_SHOP_ITEM_8,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_1,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_2,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_3,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_4,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_5,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_6,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_7,
+                                            RC_MARKET_BOMBCHU_SHOP_ITEM_8,
+                                            RC_MARKET_POTION_SHOP_ITEM_1,
+                                            RC_MARKET_POTION_SHOP_ITEM_2,
+                                            RC_MARKET_POTION_SHOP_ITEM_3,
+                                            RC_MARKET_POTION_SHOP_ITEM_4,
+                                            RC_MARKET_POTION_SHOP_ITEM_5,
+                                            RC_MARKET_POTION_SHOP_ITEM_6,
+                                            RC_MARKET_POTION_SHOP_ITEM_7,
+                                            RC_MARKET_POTION_SHOP_ITEM_8,
+                                            RC_MARKET_BAZAAR_ITEM_1,
+                                            RC_MARKET_BAZAAR_ITEM_2,
+                                            RC_MARKET_BAZAAR_ITEM_3,
+                                            RC_MARKET_BAZAAR_ITEM_4,
+                                            RC_MARKET_BAZAAR_ITEM_5,
+                                            RC_MARKET_BAZAAR_ITEM_6,
+                                            RC_MARKET_BAZAAR_ITEM_7,
+                                            RC_MARKET_BAZAAR_ITEM_8,
+                                            RC_KAK_BAZAAR_ITEM_1,
+                                            RC_KAK_BAZAAR_ITEM_2,
+                                            RC_KAK_BAZAAR_ITEM_3,
+                                            RC_KAK_BAZAAR_ITEM_4,
+                                            RC_KAK_BAZAAR_ITEM_5,
+                                            RC_KAK_BAZAAR_ITEM_6,
+                                            RC_KAK_BAZAAR_ITEM_7,
+                                            RC_KAK_BAZAAR_ITEM_8,
+                                            RC_ZD_SHOP_ITEM_1,
+                                            RC_ZD_SHOP_ITEM_2,
+                                            RC_ZD_SHOP_ITEM_3,
+                                            RC_ZD_SHOP_ITEM_4,
+                                            RC_ZD_SHOP_ITEM_5,
+                                            RC_ZD_SHOP_ITEM_6,
+                                            RC_ZD_SHOP_ITEM_7,
+                                            RC_ZD_SHOP_ITEM_8,
+                                            RC_GC_SHOP_ITEM_1,
+                                            RC_GC_SHOP_ITEM_2,
+                                            RC_GC_SHOP_ITEM_3,
+                                            RC_GC_SHOP_ITEM_4,
+                                            RC_GC_SHOP_ITEM_5,
+                                            RC_GC_SHOP_ITEM_6,
+                                            RC_GC_SHOP_ITEM_7,
+                                            RC_GC_SHOP_ITEM_8 };
+
+bool isShopCheck(RandomizerCheck check) {
+    if (std::find(shopChecks.begin(), shopChecks.end(), check) != shopChecks.end()) {
+        return true;
+    }
+    return false;
+}
+
 static bool checks[500];
 static bool showSpoilers = false;
 static bool showChecked = false;
 static bool showAll = false;
 
 void drawCheck(int i) {
-    if (!showChecked && checks[i]) // skip checked Checks
+    if ((!showChecked && checks[i]) || isShopCheck(gSaveContext.itemLocations[i].check)) // skip checked Checks and shop items
         return;
 
     DrawGroupWithBorder([&]() {
