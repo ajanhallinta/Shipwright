@@ -1,9 +1,12 @@
 #include "randomizer_check_tracker.h"
+#include "GlobalCtx2.h"
 #include "../../util.h"
 #include "../libultraship/ImGuiImpl.h"
 #include <soh/Enhancements/debugger/ImGuiHelpers.h>
 #include <soh/Enhancements/randomizer/randomizer.h>
+#include "Lib/nlohmann/json.hpp"
 
+#include <fstream>
 #include <array>
 #include <bit>
 #include <map>
@@ -2205,6 +2208,13 @@ bool isCowCheck(const RandomizerCheck check) {
     return false;
 }
 
+bool DoesFileExist(const std::string& name) {
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) == 0);
+}
+
+const std::string trackerSaveFilePath = Ship::GlobalCtx2::GetPathRelativeToAppDirectory("Randomizer") + "/checktracker_save.json";
+
 static bool checks[500];
 static bool showSpoilers = false;
 static bool showChecked = false;
@@ -2274,47 +2284,79 @@ void DrawTracker() {
         RegionToString[RR_GANONS_CASTLE].c_str(),
     };
 
-    ImGui::Text("Options:");
-    DrawGroupWithBorder([&]() {
-        ImGui::Checkbox("Show Checked", &showChecked);
-        ImGui::SameLine();
-        ImGui::Checkbox("Show Skulltulas", &showGs);
-        ImGui::SameLine();
-        ImGui::Checkbox("Show Cows", &showCows);
-        ImGui::SameLine();
-        ImGui::Checkbox("Show All Regions", &showAll);
-        ImGui::SameLine();
-        ImGui::Checkbox("Show Spoilers", &showSpoilers);
+    if (ImGui::BeginTabBar("Check Tracker", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
 
-        ImGui::Text("Select Region:");
-        ImGui::SameLine();
-        SohImGui::EnhancementCombobox("gCheckTrackerSelectedRegion", regionStrings, 35, 0);
-    });
+        if (ImGui::BeginTabItem("Check Tracker")) {
+            ImGui::Text("Options:");
+            DrawGroupWithBorder([&]() {
+                ImGui::Checkbox("Show Checked", &showChecked);
+                ImGui::SameLine();
+                ImGui::Checkbox("Show Skulltulas", &showGs);
+                ImGui::SameLine();
+                ImGui::Checkbox("Show Cows", &showCows);
+                ImGui::SameLine();
+                ImGui::Checkbox("Show All Regions", &showAll);
+                ImGui::SameLine();
+                ImGui::Checkbox("Show Spoilers", &showSpoilers);
 
-    selectedRegion = (RandomizerRegion)CVar_GetS32("gCheckTrackerSelectedRegion", 0);
-    if (selectedRegion > 0)
-        currentRegion = static_cast<RandomizerRegion>(selectedRegion);
-    else
-        setRegionByCurrentSceneID();
+                ImGui::Text("Select Region:");
+                ImGui::SameLine();
+                SohImGui::EnhancementCombobox("gCheckTrackerSelectedRegion", regionStrings, 35, 0);
+            });
 
-    if (showAll) {
-        ImGui::Text("Checks:");
-    } else {
-        ImGui::Text("Checks in %s:", RegionToString[currentRegion].c_str());
-    }
+            selectedRegion = (RandomizerRegion)CVar_GetS32("gCheckTrackerSelectedRegion", 0);
+            if (selectedRegion > 0)
+                currentRegion = static_cast<RandomizerRegion>(selectedRegion);
+            else
+                setRegionByCurrentSceneID();
 
-    DrawGroupWithBorder([&]() {
-        // for (int i = 0; i < ARRAY_COUNT(gSaveContext.itemLocations); i++) {
-        for (int i = 0; i < 490; i++) {
             if (showAll) {
-                drawCheck(i);
+                ImGui::Text("Checks:");
             } else {
-                if (CheckEnumToRegion[gSaveContext.itemLocations[i].check] == currentRegion) {
-                    drawCheck(i);
+                ImGui::Text("Checks in %s:", RegionToString[currentRegion].c_str());
+            }
+
+            DrawGroupWithBorder([&]() {
+                // for (int i = 0; i < ARRAY_COUNT(gSaveContext.itemLocations); i++) {
+                for (int i = 0; i < 490; i++) {
+                    if (showAll) {
+                        drawCheck(i);
+                    } else {
+                        if (CheckEnumToRegion[gSaveContext.itemLocations[i].check] == currentRegion) {
+                            drawCheck(i);
+                        }
+                    }
+                }
+            });
+
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Settings")) {
+            if (ImGui::Button("Load")) {
+                if (DoesFileExist(trackerSaveFilePath)) {
+                    std::ifstream ifs(trackerSaveFilePath);
+                    nlohmann::json trackerJsonData = nlohmann::json::parse(ifs);
+                    int i = 0;
+                    for (auto it = trackerJsonData.begin(); it != trackerJsonData.end(); ++it) {
+                        checks[i] = it.value();
+                        i++;
+                    }
                 }
             }
+            ImGui::SameLine();
+            if (ImGui::Button("Save")) {
+                nlohmann::json trackerJsonSave = nlohmann::json::array();
+                for (int i = 0; i < 500; i++) {
+                    trackerJsonSave.push_back(checks[i]);
+                }
+                std::ofstream output(trackerSaveFilePath);
+                output << std::setw(4) << trackerJsonSave << std::endl;
+            }
+            ImGui::EndTabItem();
         }
-    });
+        ImGui::EndTabBar();
+    }
 }
 
 void DrawCheckTracker(bool& open) {
