@@ -34,7 +34,7 @@
 #include "Enhancements/debugger/debugger.h"
 #include "Enhancements/randomizer/randomizer.h"
 #include <soh/Enhancements/randomizer/randomizer_item_tracker.h>
-#include <soh/Enhancements/randomizer/randomizer_map_tracker.h>
+#include <soh/Enhancements/randomizer/randomizer_check_tracker.h>
 #include "Enhancements/n64_weird_frame_data.inc"
 #include "soh/frame_interpolation.h"
 #include "variables.h"
@@ -188,7 +188,7 @@ extern "C" void InitOTR() {
     Debug_Init();
     Rando_Init();
     InitItemTracker();
-    InitMapTracker();
+    InitCheckTracker();
     OTRExtScanner();
 }
 

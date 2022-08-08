@@ -1,4 +1,4 @@
-#include "randomizer_map_tracker.h"
+#include "randomizer_check_tracker.h"
 #include "../../util.h"
 #include "../libultraship/ImGuiImpl.h"
 #include <soh/Enhancements/debugger/ImGuiHelpers.h>
@@ -1945,7 +1945,7 @@ std::unordered_map<RandomizerGet, std::string> GetEnumToName = {
     { RG_HINT, "Indice" }
 };
 
-std::vector<RandomizerCheck> shopChecks = { RC_KF_SHOP_ITEM_1,
+const std::vector<RandomizerCheck> shopChecks = { RC_KF_SHOP_ITEM_1,
                                             RC_KF_SHOP_ITEM_2,
                                             RC_KF_SHOP_ITEM_3,
                                             RC_KF_SHOP_ITEM_4,
@@ -2010,7 +2010,7 @@ std::vector<RandomizerCheck> shopChecks = { RC_KF_SHOP_ITEM_1,
                                             RC_GC_SHOP_ITEM_7,
                                             RC_GC_SHOP_ITEM_8 };
 
-std::vector<RandomizerCheck> ignoredChecks = { RC_MARKET_TREASURE_CHEST_GAME_ITEM_1,
+const std::vector<RandomizerCheck> ignoredChecks = { RC_MARKET_TREASURE_CHEST_GAME_ITEM_1,
                                                RC_MARKET_TREASURE_CHEST_GAME_ITEM_2,
                                                RC_MARKET_TREASURE_CHEST_GAME_ITEM_3,
                                                RC_MARKET_TREASURE_CHEST_GAME_ITEM_4,
@@ -2018,7 +2018,7 @@ std::vector<RandomizerCheck> ignoredChecks = { RC_MARKET_TREASURE_CHEST_GAME_ITE
                                                RC_UNKNOWN_CHECK,
                                                RC_LINKS_POCKET };
 
-std::vector<RandomizerCheck> gsChecks = { RC_KF_GS_KNOW_IT_ALL_HOUSE,
+const std::vector<RandomizerCheck> gsChecks = { RC_KF_GS_KNOW_IT_ALL_HOUSE,
                                           RC_KF_GS_BEAN_PATCH,
                                           RC_KF_GS_HOUSE_OF_TWINS,
                                           RC_LW_GS_BEAN_PATCH_NEAR_BRIDGE,
@@ -2120,7 +2120,7 @@ std::vector<RandomizerCheck> gsChecks = { RC_KF_GS_KNOW_IT_ALL_HOUSE,
                                           RC_ICE_CAVERN_GS_PUSH_BLOCK_ROOM };
 
 // business scrubs without a major item
-std::vector<RandomizerCheck> scrubChecks = {
+const std::vector<RandomizerCheck> scrubChecks = {
     RC_LW_DEKU_SCRUB_NEAR_DEKU_THEATER_LEFT,
     RC_LW_DEKU_SCRUB_NEAR_DEKU_THEATER_RIGHT,
     RC_LW_DEKU_SCRUB_GROTTO_REAR,
@@ -2156,7 +2156,7 @@ std::vector<RandomizerCheck> scrubChecks = {
     RC_GANONS_CASTLE_DEKU_SCRUB_RIGHT,
 };
 
-std::vector<RandomizerCheck> cowChecks = { RC_KF_LINKS_HOUSE_COW,    RC_HF_COW_GROTTO_COW,
+const std::vector<RandomizerCheck> cowChecks = { RC_KF_LINKS_HOUSE_COW,    RC_HF_COW_GROTTO_COW,
                                            RC_HF_GS_COW_GROTTO,      RC_LLR_STABLES_LEFT_COW,
                                            RC_LLR_STABLES_RIGHT_COW, RC_LLR_TOWER_LEFT_COW,
                                            RC_LLR_TOWER_RIGHT_COW,   RC_KAK_IMPAS_HOUSE_COW,
@@ -2284,10 +2284,10 @@ void DrawTracker() {
 
         ImGui::Text("Select Region:");
         ImGui::SameLine();
-        SohImGui::EnhancementCombobox("gMapTrackerSelectedRegion", regionStrings, 35, 0);
+        SohImGui::EnhancementCombobox("gCheckTrackerSelectedRegion", regionStrings, 35, 0);
     });
 
-    selectedRegion = (RandomizerRegion)CVar_GetS32("gMapTrackerSelectedRegion", 0);
+    selectedRegion = (RandomizerRegion)CVar_GetS32("gCheckTrackerSelectedRegion", 0);
     if (selectedRegion > 0)
         currentRegion = static_cast<RandomizerRegion>(selectedRegion);
     else
@@ -2308,14 +2308,14 @@ void DrawTracker() {
     });
 }
 
-void DrawMapTracker(bool& open) {
+void DrawCheckTracker(bool& open) {
     if (!open) {
-        CVar_SetS32("gMapTrackerEnabled", 0);
+        CVar_SetS32("gCheckTrackerEnabled", 0);
         return;
     }
 
     ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-    if (!ImGui::Begin("Map Tracker", &open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+    if (!ImGui::Begin("Check Tracker", &open, ImGuiWindowFlags_NoFocusOnAppearing)) {
         ImGui::End();
         return;
     }
@@ -2325,6 +2325,6 @@ void DrawMapTracker(bool& open) {
     ImGui::End();
 }
 
-void InitMapTracker() {
-    SohImGui::AddWindow("Randomizer", "Map Tracker", DrawMapTracker);
+void InitCheckTracker() {
+    SohImGui::AddWindow("Randomizer", "Check Tracker", DrawCheckTracker);
 }
