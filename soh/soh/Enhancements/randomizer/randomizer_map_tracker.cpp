@@ -2012,8 +2012,23 @@ std::vector<RandomizerCheck> shopChecks = { RC_KF_SHOP_ITEM_1,
                                             RC_GC_SHOP_ITEM_7,
                                             RC_GC_SHOP_ITEM_8 };
 
+std::vector<RandomizerCheck> ignoredChecks = { RC_MARKET_TREASURE_CHEST_GAME_ITEM_1,
+                                               RC_MARKET_TREASURE_CHEST_GAME_ITEM_2,
+                                               RC_MARKET_TREASURE_CHEST_GAME_ITEM_3,
+                                               RC_MARKET_TREASURE_CHEST_GAME_ITEM_4,
+                                               RC_MARKET_TREASURE_CHEST_GAME_ITEM_5,
+                                               RC_UNKNOWN_CHECK,
+                                               RC_LINKS_POCKET };
+
 bool isShopCheck(RandomizerCheck check) {
     if (std::find(shopChecks.begin(), shopChecks.end(), check) != shopChecks.end()) {
+        return true;
+    }
+    return false;
+}
+
+bool isIgnoredCheck(RandomizerCheck check) {
+    if (std::find(ignoredChecks.begin(), ignoredChecks.end(), check) != ignoredChecks.end()) {
         return true;
     }
     return false;
@@ -2025,7 +2040,7 @@ static bool showChecked = false;
 static bool showAll = false;
 
 void drawCheck(int i) {
-    if ((!showChecked && checks[i]) || isShopCheck(gSaveContext.itemLocations[i].check)) // skip checked Checks and shop items
+    if ((!showChecked && checks[i]) || isIgnoredCheck(gSaveContext.itemLocations[i].check) || isShopCheck(gSaveContext.itemLocations[i].check)) // skip checked Checks and shop items
         return;
 
     DrawGroupWithBorder([&]() {
