@@ -2231,7 +2231,7 @@ void DrawTracker() {
     if (gGlobalCtx == nullptr)
         return;
 
-    const char* regionStrings[36] = {
+    const char* regionStrings[35] = {
         // RegionToString[RR_UNKNOWN].c_str(),
         "Current",
         RegionToString[RR_KF].c_str(),
@@ -2286,7 +2286,7 @@ void DrawTracker() {
 
     ImGui::Text("Select Region:");
     ImGui::SameLine();
-    SohImGui::EnhancementCombobox("gMapTrackerSelectedRegion", regionStrings, 36, 0);
+    SohImGui::EnhancementCombobox("gMapTrackerSelectedRegion", regionStrings, 35, 0);
     selectedRegion = (RandomizerRegion)CVar_GetS32("gMapTrackerSelectedRegion", 0);
     if (selectedRegion > 0)
         currentRegion = static_cast<RandomizerRegion>(selectedRegion);
