@@ -243,43 +243,41 @@ void setCurrentRegion() {
     }
 }
 
-std::unordered_map<RandomizerRegion, std::string> RegionToString = {
-    { RR_UNKNOWN, "Unknown" },
-    { RR_KF, "Kokiri Forest" },
-    { RR_LW, "Lost Woods" },
-    { RR_HF, "Hyrule Field" },
-    { RR_LH, "Lake Hylia" },
-    { RR_GV, "Gerudo Valley" },
-    { RR_GF, "Gerudo Fortress" },
-    { RR_WASTELAND, "Haunted Wasteland" },
-    { RR_COLOSSUS, "Desert Colossus" },
-    { RR_MARKET, "Hyrule Market" },
-    { RR_HC, "Hyrule Castle" },
-    { RR_KAK, "Kakariko Village" },
-    { RR_GRAVEYARD, "Graveyard" },
-    { RR_DMT, "Death Mountain Trail" },
-    { RR_GC, "Goron City" },
-    { RR_DMC, "Death Mountain Crater" },
-    { RR_ZR, "Zora's River" },
-    { RR_ZD, "Zora's Domain" },
-    { RR_ZF, "Zora's Fountain" },
-    { RR_LLR, "Lon Lon Ranch" },
-    { RR_SFM, "Sacret Forest Meadow" },
-    { RR_GTG, "Gerudo Training Grounds" },
-    { RR_DEKU, "Inside the Deku Tree" },
-    { RR_DC, "Dodongo's Cavern" },
-    { RR_JABU, "Inside Jabu-Jabu's Belly" },
-    { RR_FOREST, "Forest Temple" },
-    { RR_FIRE, "Fire Temple" },
-    { RR_WATER, "Water Temple" },
-    { RR_SHADOW, "Shadow Temple" },
-    { RR_SPIRIT, "Sprit Temple" },
-    { RR_ICE, "Ice Cavern" },
-    { RR_BOTW, "Bottom of the Well" },
-    { RR_TOT, "Temple of Time" },
-    { RR_OGC, "Outside Ganon's Castle" },
-    { RR_GANONS_CASTLE, "Ganon's Castle" },
-};
+std::unordered_map<RandomizerRegion, std::string> RegionToString = { { RR_UNKNOWN, "Unknown" },
+                                                                     { RR_KF, "Kokiri Forest" },
+                                                                     { RR_LW, "Lost Woods" },
+                                                                     { RR_HF, "Hyrule Field" },
+                                                                     { RR_LH, "Lake Hylia" },
+                                                                     { RR_GV, "Gerudo Valley" },
+                                                                     { RR_GF, "Gerudo Fortress" },
+                                                                     { RR_WASTELAND, "Haunted Wasteland" },
+                                                                     { RR_COLOSSUS, "Desert Colossus" },
+                                                                     { RR_MARKET, "Hyrule Market" },
+                                                                     { RR_HC, "Hyrule Castle" },
+                                                                     { RR_KAK, "Kakariko Village" },
+                                                                     { RR_GRAVEYARD, "Graveyard" },
+                                                                     { RR_DMT, "Death Mountain Trail" },
+                                                                     { RR_GC, "Goron City" },
+                                                                     { RR_DMC, "Death Mountain Crater" },
+                                                                     { RR_ZR, "Zora's River" },
+                                                                     { RR_ZD, "Zora's Domain" },
+                                                                     { RR_ZF, "Zora's Fountain" },
+                                                                     { RR_LLR, "Lon Lon Ranch" },
+                                                                     { RR_SFM, "Sacret Forest Meadow" },
+                                                                     { RR_GTG, "Gerudo Training Grounds" },
+                                                                     { RR_DEKU, "Inside the Deku Tree" },
+                                                                     { RR_DC, "Dodongo's Cavern" },
+                                                                     { RR_JABU, "Inside Jabu-Jabu's Belly" },
+                                                                     { RR_FOREST, "Forest Temple" },
+                                                                     { RR_FIRE, "Fire Temple" },
+                                                                     { RR_WATER, "Water Temple" },
+                                                                     { RR_SHADOW, "Shadow Temple" },
+                                                                     { RR_SPIRIT, "Sprit Temple" },
+                                                                     { RR_ICE, "Ice Cavern" },
+                                                                     { RR_BOTW, "Bottom of the Well" },
+                                                                     { RR_TOT, "Temple of Time" },
+                                                                     { RR_OGC, "Outside Ganon's Castle" },
+                                                                     { RR_GANONS_CASTLE, "Ganon's Castle" } };
 
 std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_UNKNOWN_CHECK, RR_UNKNOWN },
@@ -2204,14 +2202,17 @@ static bool showSpoilers = false;
 static bool showChecked = false;
 static bool showGs = false;
 static bool showCows = false;
+static bool showSelectedRegion = false;
 static bool showAll = false;
+static int selectedRegion = 0;
 
 void drawCheck(int i) {
     // ignore checked Checks, shop items, ignored Checks, Scrubs, Cows (if set so) and Golden Skulltulas (if set so)
     if ((!showChecked && checks[i]) || isIgnoredCheck(gSaveContext.itemLocations[i].check) ||
         isShopCheck(gSaveContext.itemLocations[i].check) ||
         (!showGs && isGsCheck(gSaveContext.itemLocations[i].check)) ||
-        isScrubCheck(gSaveContext.itemLocations[i].check) || (!showCows && isCowCheck(gSaveContext.itemLocations[i].check))) {
+        isScrubCheck(gSaveContext.itemLocations[i].check) ||
+        (!showCows && isCowCheck(gSaveContext.itemLocations[i].check))) {
         return;
     }
 
@@ -2230,6 +2231,45 @@ void DrawTracker() {
     if (gGlobalCtx == nullptr)
         return;
 
+    const char* regionStrings[36] = {
+        // RegionToString[RR_UNKNOWN].c_str(),
+        "Current",
+        RegionToString[RR_KF].c_str(),
+        RegionToString[RR_LW].c_str(),
+        RegionToString[RR_HF].c_str(),
+        RegionToString[RR_LH].c_str(),
+        RegionToString[RR_GV].c_str(),
+        RegionToString[RR_GF].c_str(),
+        RegionToString[RR_WASTELAND].c_str(),
+        RegionToString[RR_COLOSSUS].c_str(),
+        RegionToString[RR_MARKET].c_str(),
+        RegionToString[RR_HC].c_str(),
+        RegionToString[RR_KAK].c_str(),
+        RegionToString[RR_GRAVEYARD].c_str(),
+        RegionToString[RR_DMT].c_str(),
+        RegionToString[RR_GC].c_str(),
+        RegionToString[RR_DMC].c_str(),
+        RegionToString[RR_ZR].c_str(),
+        RegionToString[RR_ZD].c_str(),
+        RegionToString[RR_ZF].c_str(),
+        RegionToString[RR_LLR].c_str(),
+        RegionToString[RR_SFM].c_str(),
+        RegionToString[RR_GTG].c_str(),
+        RegionToString[RR_DEKU].c_str(),
+        RegionToString[RR_DC].c_str(),
+        RegionToString[RR_JABU].c_str(),
+        RegionToString[RR_FOREST].c_str(),
+        RegionToString[RR_FIRE].c_str(),
+        RegionToString[RR_WATER].c_str(),
+        RegionToString[RR_SHADOW].c_str(),
+        RegionToString[RR_SPIRIT].c_str(),
+        RegionToString[RR_ICE].c_str(),
+        RegionToString[RR_BOTW].c_str(),
+        RegionToString[RR_TOT].c_str(),
+        RegionToString[RR_OGC].c_str(),
+        RegionToString[RR_GANONS_CASTLE].c_str(),
+    };
+
     ImGui::Text("Options");
     DrawGroupWithBorder([&]() {
         ImGui::Checkbox("Show Checked", &showChecked);
@@ -2244,9 +2284,16 @@ void DrawTracker() {
         ImGui::SameLine();
     });
 
-    setCurrentRegion();
-    ImGui::Text("Current Region: %s", RegionToString[currentRegion].c_str());
-    ImGui::Text("Checks:");
+    ImGui::Text("Select Region:");
+    ImGui::SameLine();
+    SohImGui::EnhancementCombobox("gMapTrackerSelectedRegion", regionStrings, 36, 0);
+    selectedRegion = (RandomizerRegion)CVar_GetS32("gMapTrackerSelectedRegion", 0);
+    if (selectedRegion > 0)
+        currentRegion = static_cast<RandomizerRegion>(selectedRegion);
+    else
+        setCurrentRegion(); // set current region by gGlobalCtx->sceneNum
+
+    ImGui::Text("Checks in %s:", RegionToString[currentRegion].c_str());
     DrawGroupWithBorder([&]() {
         // for (int i = 0; i < ARRAY_COUNT(gSaveContext.itemLocations); i++) {
         for (int i = 0; i < 490; i++) {
