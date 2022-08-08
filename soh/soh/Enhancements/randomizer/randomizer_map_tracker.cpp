@@ -76,6 +76,8 @@ typedef enum {
     RR_SPIRIT,
     RR_ICE,
     RR_BOTW,
+    RR_TOT,
+    RR_OGC,
     RR_GANONS_CASTLE
 } RandomizerRegion;
 
@@ -198,9 +200,6 @@ void setCurrentRegion() {
         case SCENE_BOWLING:
         case SCENE_MIHARIGOYA:
         case SCENE_NIGHT_SHOP:
-        case SCENE_SHRINE:
-        case SCENE_SHRINE_N:
-        case SCENE_SHRINE_R:
         case SCENE_MARKET_ALLEY:
         case SCENE_MARKET_ALLEY_N:
         case SCENE_MARKET_DAY:
@@ -208,6 +207,12 @@ void setCurrentRegion() {
         case SCENE_MARKET_RUINS:
         case SCENE_KAKARIKO3:
             currentRegion = RR_MARKET; // Market
+            break;
+        case SCENE_TOKINOMA:
+        case SCENE_SHRINE:
+        case SCENE_SHRINE_N:
+        case SCENE_SHRINE_R:
+            currentRegion = RR_TOT; // Temple of Time (Interior + exterior)
             break;
         case SCENE_YDAN:
         case SCENE_YDAN_BOSS:
@@ -222,7 +227,10 @@ void setCurrentRegion() {
             currentRegion = RR_DC; // Dodongon's Cavern
             break;
         case SCENE_ICE_DOUKUTO:
-            currentRegion = RR_ICE;
+            currentRegion = RR_ICE; // Ice Cavern
+            break;
+        case SCENE_GANON_TOU:
+            currentRegion = RR_OGC; // Outside Ganon's Castle
             break;
         case SCENE_GANON_BOSS:
         case SCENE_GANONTIKA:
@@ -268,6 +276,8 @@ std::unordered_map<RandomizerRegion, std::string> RegionToString = {
     { RR_SPIRIT, "Sprit Temple" },
     { RR_ICE, "Ice Cavern" },
     { RR_BOTW, "Bottom of the Well" },
+    { RR_TOT, "Temple of Time" },
+    { RR_OGC, "Outside Ganon's Castle" },
     { RR_GANONS_CASTLE, "Ganon's Castle" },
 };
 
@@ -542,7 +552,7 @@ std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_GERUDO_TRAINING_GROUND_HEAVY_BLOCK_THIRD_CHEST, RR_GTG },
     { RC_GERUDO_TRAINING_GROUND_HEAVY_BLOCK_FOURTH_CHEST, RR_GTG },
     { RC_GERUDO_TRAINING_GROUND_FREESTANDING_KEY, RR_GTG },
-    { RC_GANONS_TOWER_BOSS_KEY_CHEST, RR_UNKNOWN },
+    { RC_GANONS_TOWER_BOSS_KEY_CHEST, RR_GANONS_CASTLE },
     { RC_GANONS_CASTLE_FOREST_TRIAL_CHEST, RR_GANONS_CASTLE },
     { RC_GANONS_CASTLE_WATER_TRIAL_LEFT_CHEST, RR_GANONS_CASTLE },
     { RC_GANONS_CASTLE_WATER_TRIAL_RIGHT_CHEST, RR_GANONS_CASTLE },
@@ -630,7 +640,7 @@ std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_COLOSSUS_GS_BEAN_PATCH, RR_COLOSSUS },
     { RC_COLOSSUS_GS_HILL, RR_COLOSSUS },
     { RC_COLOSSUS_GS_TREE, RR_COLOSSUS },
-    { RC_OGC_GS, RR_UNKNOWN },
+    { RC_OGC_GS, RR_OGC },
     { RC_HC_GS_STORMS_GROTTO, RR_HC },
     { RC_HC_GS_TREE, RR_HC },
     { RC_MARKET_GS_GUARD_HOUSE, RR_MARKET },
@@ -663,14 +673,14 @@ std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_LLR_GS_HOUSE_WINDOW, RR_LLR },
     { RC_LLR_GS_TREE, RR_LLR },
     { RC_LINKS_POCKET, RR_UNKNOWN },
-    { RC_QUEEN_GOHMA, RR_UNKNOWN },
-    { RC_KING_DODONGO, RR_UNKNOWN },
-    { RC_BARINADE, RR_UNKNOWN },
-    { RC_PHANTOM_GANON, RR_UNKNOWN },
-    { RC_VOLVAGIA, RR_UNKNOWN },
-    { RC_MORPHA, RR_UNKNOWN },
-    { RC_TWINROVA, RR_UNKNOWN },
-    { RC_BONGO_BONGO, RR_UNKNOWN },
+    { RC_QUEEN_GOHMA, RR_DEKU },
+    { RC_KING_DODONGO, RR_DC },
+    { RC_BARINADE, RR_JABU },
+    { RC_PHANTOM_GANON, RR_FOREST },
+    { RC_VOLVAGIA, RR_FIRE },
+    { RC_MORPHA, RR_WATER },
+    { RC_TWINROVA, RR_SPIRIT },
+    { RC_BONGO_BONGO, RR_SHADOW },
     { RC_UNKNOWN_CHECK, RR_UNKNOWN },
     { RC_DEKU_TREE_QUEEN_GOHMA_HEART, RR_DEKU },
     { RC_DODONGOS_CAVERN_KING_DODONGO_HEART, RR_DC },
@@ -680,26 +690,26 @@ std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_WATER_TEMPLE_MORPHA_HEART, RR_WATER },
     { RC_SPIRIT_TEMPLE_TWINROVA_HEART, RR_SPIRIT },
     { RC_SHADOW_TEMPLE_BONGO_BONGO_HEART, RR_SHADOW },
-    { RC_TOT_LIGHT_ARROWS_CUTSCENE, RR_UNKNOWN },
+    { RC_TOT_LIGHT_ARROWS_CUTSCENE, RR_TOT },
     { RC_LW_GIFT_FROM_SARIA, RR_LW },
     { RC_ZF_GREAT_FAIRY_REWARD, RR_ZF },
     { RC_HC_GREAT_FAIRY_REWARD, RR_HC },
     { RC_COLOSSUS_GREAT_FAIRY_REWARD, RR_COLOSSUS },
     { RC_DMT_GREAT_FAIRY_REWARD, RR_DMT },
     { RC_DMC_GREAT_FAIRY_REWARD, RR_DMC },
-    { RC_OGC_GREAT_FAIRY_REWARD, RR_UNKNOWN },
-    { RC_SHEIK_IN_FOREST, RR_UNKNOWN },
-    { RC_SHEIK_IN_CRATER, RR_UNKNOWN },
-    { RC_SHEIK_IN_ICE_CAVERN, RR_UNKNOWN },
-    { RC_SHEIK_AT_COLOSSUS, RR_UNKNOWN },
-    { RC_SHEIK_IN_KAKARIKO, RR_UNKNOWN },
-    { RC_SHEIK_AT_TEMPLE, RR_UNKNOWN },
-    { RC_SONG_FROM_IMPA, RR_UNKNOWN },
-    { RC_SONG_FROM_MALON, RR_UNKNOWN },
-    { RC_SONG_FROM_SARIA, RR_UNKNOWN },
-    { RC_SONG_FROM_ROYAL_FAMILYS_TOMB, RR_UNKNOWN },
-    { RC_SONG_FROM_OCARINA_OF_TIME, RR_UNKNOWN },
-    { RC_SONG_FROM_WINDMILL, RR_UNKNOWN },
+    { RC_OGC_GREAT_FAIRY_REWARD, RR_OGC },
+    { RC_SHEIK_IN_FOREST, RR_SFM },
+    { RC_SHEIK_IN_CRATER, RR_DMC },
+    { RC_SHEIK_IN_ICE_CAVERN, RR_ICE },
+    { RC_SHEIK_AT_COLOSSUS, RR_COLOSSUS },
+    { RC_SHEIK_IN_KAKARIKO, RR_KAK },
+    { RC_SHEIK_AT_TEMPLE, RR_TOT },
+    { RC_SONG_FROM_IMPA, RR_HC },
+    { RC_SONG_FROM_MALON, RR_LLR },
+    { RC_SONG_FROM_SARIA, RR_SFM },
+    { RC_SONG_FROM_ROYAL_FAMILYS_TOMB, RR_GRAVEYARD },
+    { RC_SONG_FROM_OCARINA_OF_TIME, RR_HF },
+    { RC_SONG_FROM_WINDMILL, RR_KAK },
     { RC_KF_LINKS_HOUSE_COW, RR_KF },
     { RC_HF_COW_GROTTO_COW, RR_HF },
     { RC_LLR_STABLES_LEFT_COW, RR_LLR },
@@ -805,10 +815,10 @@ std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_SFM_MAZE_LOWER_GOSSIP_STONE, RR_SFM },
     { RC_SFM_MAZE_UPPER_GOSSIP_STONE, RR_SFM },
     { RC_SFM_SARIA_GOSSIP_STONE, RR_SFM },
-    { RC_TOT_LEFT_CENTER_GOSSIP_STONE, RR_UNKNOWN },
-    { RC_TOT_LEFT_GOSSIP_STONE, RR_UNKNOWN },
-    { RC_TOT_RIGHT_CENTER_GOSSIP_STONE, RR_UNKNOWN },
-    { RC_TOT_RIGHT_GOSSIP_STONE, RR_UNKNOWN },
+    { RC_TOT_LEFT_CENTER_GOSSIP_STONE, RR_TOT },
+    { RC_TOT_LEFT_GOSSIP_STONE, RR_TOT },
+    { RC_TOT_RIGHT_CENTER_GOSSIP_STONE, RR_TOT },
+    { RC_TOT_RIGHT_GOSSIP_STONE, RR_TOT },
     { RC_ZD_GOSSIP_STONE, RR_ZD },
     { RC_ZR_NEAR_DOMAIN_GOSSIP_STONE, RR_ZR },
     { RC_ZR_NEAR_GROTTOS_GOSSIP_STONE, RR_ZR },
