@@ -119,6 +119,9 @@ void setCurrentRegion() {
         case SCENE_SPOT03:
             currentRegion = RR_ZR; // Zora's River
             break;
+        case SCENE_SPOT05:
+            currentRegion = RR_SFM; // Sacred Forest Meadow
+            break;
         case SCENE_ZOORA:
         case SCENE_SPOT07:
             currentRegion = RR_ZD; // Zora's Domain
@@ -232,25 +235,41 @@ void setCurrentRegion() {
     }
 }
 
-std::unordered_map<RandomizerRegion, std::string> RegionToString = { { RR_UNKNOWN, "Unknown" },
-                                                                     { RR_KF, "Kokiri Forest" },
-                                                                     { RR_LW, "Lost Woods" },
-                                                                     { RR_HF, "Hyrule Field" },
-                                                                     { RR_LH, "Lake Hylia" },
-                                                                     { RR_GV, "Gerudo Valley" },
-                                                                     { RR_GF, "Gerudo Fortress" },
-                                                                     { RR_WASTELAND, "Wasteland" },
-                                                                     { RR_COLOSSUS, "Desert Colossus" },
-                                                                     { RR_MARKET, "Market" },
-                                                                     { RR_KAK, "Kakariko Village" },
-                                                                     { RR_GRAVEYARD, "Graveyard" },
-                                                                     { RR_DMT, "Death Mountain Trail" },
-                                                                     { RR_GC, "Goron City" },
-                                                                     { RR_DMC, "Death Mountain Crater" },
-                                                                     { RR_ZR, "Zoras River" },
-                                                                     { RR_ZD, "Zora's Domain" },
-                                                                     { RR_ZF, "Zora's Fountain" },
-                                                                     { RR_LLR, "Lon Lon Ranch" } };
+std::unordered_map<RandomizerRegion, std::string> RegionToString = {
+    { RR_UNKNOWN, "Unknown" },
+    { RR_KF, "Kokiri Forest" },
+    { RR_LW, "Lost Woods" },
+    { RR_HF, "Hyrule Field" },
+    { RR_LH, "Lake Hylia" },
+    { RR_GV, "Gerudo Valley" },
+    { RR_GF, "Gerudo Fortress" },
+    { RR_WASTELAND, "Haunted Wasteland" },
+    { RR_COLOSSUS, "Desert Colossus" },
+    { RR_MARKET, "Hyrule Market" },
+    { RR_HC, "Hyrule Castle" },
+    { RR_KAK, "Kakariko Village" },
+    { RR_GRAVEYARD, "Graveyard" },
+    { RR_DMT, "Death Mountain Trail" },
+    { RR_GC, "Goron City" },
+    { RR_DMC, "Death Mountain Crater" },
+    { RR_ZR, "Zora's River" },
+    { RR_ZD, "Zora's Domain" },
+    { RR_ZF, "Zora's Fountain" },
+    { RR_LLR, "Lon Lon Ranch" },
+    { RR_SFM, "Sacret Forest Meadow" },
+    { RR_GTG, "Gerudo Training Grounds" },
+    { RR_DEKU, "Inside the Deku Tree" },
+    { RR_DC, "Dodongo's Cavern" },
+    { RR_JABU, "Inside Jabu-Jabu's Belly" },
+    { RR_FOREST, "Forest Temple" },
+    { RR_FIRE, "Fire Temple" },
+    { RR_WATER, "Water Temple" },
+    { RR_SHADOW, "Shadow Temple" },
+    { RR_SPIRIT, "Sprit Temple" },
+    { RR_ICE, "Ice Cavern" },
+    { RR_BOTW, "Bottom of the Well" },
+    { RR_GANONS_CASTLE, "Ganon's Castle" },
+};
 
 std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_UNKNOWN_CHECK, RR_UNKNOWN },
