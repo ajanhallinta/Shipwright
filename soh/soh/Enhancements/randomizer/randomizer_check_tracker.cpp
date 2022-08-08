@@ -111,7 +111,6 @@ void setRegionByCurrentSceneID() {
             break;
         case SCENE_HAKASITARELAY: // TODO: Dampe / Windmill, now in KAK region
         case SCENE_DRAG:
-        case SCENE_IMPA:
         case SCENE_KINSUTA:
         case SCENE_MAHOUYA:
         case SCENE_SHOP1: // TODO: Bazaar
@@ -213,6 +212,7 @@ void setRegionByCurrentSceneID() {
         case SCENE_MARKET_NIGHT:
         case SCENE_MARKET_RUINS:
         case SCENE_KAKARIKO3:
+        case SCENE_IMPA:
         case SCENE_TAKARAYA:
             currentRegion = RR_MARKET; // Market
             break;
