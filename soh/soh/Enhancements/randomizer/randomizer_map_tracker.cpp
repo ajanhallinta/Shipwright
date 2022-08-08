@@ -2158,6 +2158,12 @@ std::vector<RandomizerCheck> scrubChecks = {
     RC_GANONS_CASTLE_DEKU_SCRUB_RIGHT,
 };
 
+std::vector<RandomizerCheck> cowChecks = { RC_KF_LINKS_HOUSE_COW,    RC_HF_COW_GROTTO_COW,
+                                           RC_HF_GS_COW_GROTTO,      RC_LLR_STABLES_LEFT_COW,
+                                           RC_LLR_STABLES_RIGHT_COW, RC_LLR_TOWER_LEFT_COW,
+                                           RC_LLR_TOWER_RIGHT_COW,   RC_KAK_IMPAS_HOUSE_COW,
+                                           RC_DMT_COW_GROTTO_COW,    RC_GV_COW };
+
 bool isShopCheck(RandomizerCheck check) {
     if (std::find(shopChecks.begin(), shopChecks.end(), check) != shopChecks.end()) {
         return true;
@@ -2186,18 +2192,26 @@ bool isScrubCheck(const RandomizerCheck check) {
     return false;
 }
 
+bool isCowCheck(const RandomizerCheck check) {
+    if (std::find(cowChecks.begin(), cowChecks.end(), check) != cowChecks.end()) {
+        return true;
+    }
+    return false;
+}
+
 static bool checks[500];
 static bool showSpoilers = false;
 static bool showChecked = false;
 static bool showGs = false;
+static bool showCows = false;
 static bool showAll = false;
 
 void drawCheck(int i) {
-    // ignore checked Checks, shop items, ignored Checks, Scrubs and Golden Skulltulas (if set so)
+    // ignore checked Checks, shop items, ignored Checks, Scrubs, Cows (if set so) and Golden Skulltulas (if set so)
     if ((!showChecked && checks[i]) || isIgnoredCheck(gSaveContext.itemLocations[i].check) ||
         isShopCheck(gSaveContext.itemLocations[i].check) ||
         (!showGs && isGsCheck(gSaveContext.itemLocations[i].check)) ||
-        isScrubCheck(gSaveContext.itemLocations[i].check)) {
+        isScrubCheck(gSaveContext.itemLocations[i].check) || (!showCows && isCowCheck(gSaveContext.itemLocations[i].check))) {
         return;
     }
 
@@ -2221,6 +2235,8 @@ void DrawTracker() {
         ImGui::Checkbox("Show Checked", &showChecked);
         ImGui::SameLine();
         ImGui::Checkbox("Show Skulltulas", &showGs);
+        ImGui::SameLine();
+        ImGui::Checkbox("Show Cows", &showCows);
         ImGui::SameLine();
         ImGui::Checkbox("Show All Regions", &showAll);
         ImGui::SameLine();
