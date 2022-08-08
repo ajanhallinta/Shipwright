@@ -115,6 +115,9 @@ void setRegionByCurrentSceneID() {
         case SCENE_KINSUTA:
         case SCENE_MAHOUYA:
         case SCENE_SHOP1: // TODO: Bazaar
+        case SCENE_SYATEKIJYOU:
+        case SCENE_LABO:
+        case SCENE_KAKARIKO:
         case SCENE_SPOT01:
             currentRegion = RR_KAK; // Kakariko Village
             break;
@@ -148,6 +151,10 @@ void setRegionByCurrentSceneID() {
         case SCENE_SPOT13:
             currentRegion = RR_WASTELAND; // Wasteland
             break;
+        case SCENE_HAIRAL_NIWA:
+        case SCENE_HAIRAL_NIWA2:
+        case SCENE_HAIRAL_NIWA_N:
+        case SCENE_NAKANIWA:
         case SCENE_SPOT15:
             currentRegion = RR_HC; // Hyrule Castle
             break;
@@ -206,6 +213,7 @@ void setRegionByCurrentSceneID() {
         case SCENE_MARKET_NIGHT:
         case SCENE_MARKET_RUINS:
         case SCENE_KAKARIKO3:
+        case SCENE_TAKARAYA:
             currentRegion = RR_MARKET; // Market
             break;
         case SCENE_TOKINOMA:
