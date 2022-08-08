@@ -2216,12 +2216,11 @@ void drawCheck(int i) {
         return;
     }
 
-    DrawGroupWithBorder([&]() {
-        ImGui::Checkbox(CheckEnumToName[gSaveContext.itemLocations[i].check].c_str(), &checks[i]);
-        if (showSpoilers) {
-            ImGui::Text("Item: %s", GetEnumToName[gSaveContext.itemLocations[i].get].c_str());
-        }
-    });
+    ImGui::Checkbox(CheckEnumToName[gSaveContext.itemLocations[i].check].c_str(), &checks[i]);
+    if (showSpoilers) {
+        ImGui::SameLine();
+        ImGui::Text("(%s)", GetEnumToName[gSaveContext.itemLocations[i].get].c_str());
+    }
 }
 
 void DrawTracker() {
