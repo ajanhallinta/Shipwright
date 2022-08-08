@@ -1937,13 +1937,10 @@ std::unordered_map<RandomizerGet, std::string> GetEnumToName = {
     { RG_HINT, "Indice" }
 };
 
-bool showInaccessibleChecks = false;
-
 static bool checks[500];
 static bool showSpoilers = false;
 static bool showChecked = false;
 static bool showAll = false;
-static bool showFromCurrentRegion = false;
 
 void drawCheck(int i) {
     if (!showChecked && checks[i]) // skip checked Checks
@@ -1966,28 +1963,26 @@ void DrawTracker() {
 
     ImGui::Text("Options");
     DrawGroupWithBorder([&]() {
-        ImGui::Checkbox("Show Spoilers", &showSpoilers);
-        ImGui::SameLine();
         ImGui::Checkbox("Show Checked", &showChecked);
         ImGui::SameLine();
-        ImGui::Checkbox("Show From Current Region", &showFromCurrentRegion);
+        ImGui::Checkbox("Show All Regions", &showAll);
         ImGui::SameLine();
-        ImGui::Checkbox("Show All", &showAll);
+        ImGui::Checkbox("Show Spoilers", &showSpoilers);
+        ImGui::SameLine();
     });
 
     setCurrentRegion();
     ImGui::Text("Current Region: %s", RegionToString[currentRegion].c_str());
-
     ImGui::Text("Checks:");
     DrawGroupWithBorder([&]() {
         // for (int i = 0; i < ARRAY_COUNT(gSaveContext.itemLocations); i++) {
         for (int i = 0; i < 490; i++) {
-            if (showFromCurrentRegion) {
+            if (showAll) {
+                drawCheck(i);
+            } else {
                 if (CheckEnumToRegion[gSaveContext.itemLocations[i].check] == currentRegion) {
                     drawCheck(i);
                 }
-            } else if (showAll) {
-                drawCheck(i);
             }
         }
     });
