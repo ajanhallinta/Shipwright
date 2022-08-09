@@ -1,8 +1,6 @@
 #include "randomizer_check_tracker.h"
 #include "GlobalCtx2.h"
-#include "../../util.h"
 #include "../libultraship/ImGuiImpl.h"
-#include <soh/Enhancements/debugger/ImGuiHelpers.h>
 #include <soh/Enhancements/randomizer/randomizer.h>
 #include "Lib/nlohmann/json.hpp"
 
