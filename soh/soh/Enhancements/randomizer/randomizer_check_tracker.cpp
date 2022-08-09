@@ -411,6 +411,11 @@ std::unordered_map<RandomizerCheck, RandomizerRegion> CheckEnumToRegion = {
     { RC_DMC_DEKU_SCRUB_GROTTO_CENTER, RR_DMC },
     { RC_ZR_OPEN_GROTTO_CHEST, RR_ZR },
     { RC_ZR_MAGIC_BEAN_SALESMAN, RR_ZR },
+    { RC_ZR_FROGS_ZELDAS_LULLABY, RR_ZR },
+    { RC_ZR_FROGS_EPONAS_SONG, RR_ZR },
+    { RC_ZR_FROGS_SARIAS_SONG, RR_ZR },
+    { RC_ZR_FROGS_SUNS_SONG, RR_ZR },
+    { RC_ZR_FROGS_SONG_OF_TIME, RR_ZR },
     { RC_ZR_FROGS_IN_THE_RAIN, RR_ZR },
     { RC_ZR_FROGS_OCARINA_GAME, RR_ZR },
     { RC_ZR_NEAR_OPEN_GROTTO_FREESTANDING_POH, RR_ZR },
@@ -957,6 +962,11 @@ std::unordered_map<RandomizerCheck, std::string> CheckEnumToName = {
     { RC_ZR_MAGIC_BEAN_SALESMAN, "ZR Magic Bean Salesman" },
     { RC_ZR_FROGS_IN_THE_RAIN, "ZR Frogs in the Rain" },
     { RC_ZR_FROGS_OCARINA_GAME, "ZR Frogs Ocarina Game" },
+    { RC_ZR_FROGS_EPONAS_SONG, "ZR Epona's Song" },
+    { RC_ZR_FROGS_SARIAS_SONG, "ZR Saria's Song" },
+    { RC_ZR_FROGS_SONG_OF_TIME, "ZR Song of Time" },
+    { RC_ZR_FROGS_SUNS_SONG, "ZR Sun's Song" },
+    { RC_ZR_FROGS_ZELDAS_LULLABY, "ZR Zelda's Lullaby" },
     { RC_ZR_NEAR_OPEN_GROTTO_FREESTANDING_POH, "ZR Near Open Grotto Freestanding PoH" },
     { RC_ZR_NEAR_DOMAIN_FREESTANDING_POH, "ZR Near Domain Freestanding PoH" },
     { RC_ZR_DEKU_SCRUB_GROTTO_REAR, "ZR Deku Scrub Grotto Rear" },
@@ -2213,7 +2223,8 @@ bool DoesFileExist(const std::string& name) {
     return (stat(name.c_str(), &buffer) == 0);
 }
 
-const std::string trackerSaveFilePath = Ship::GlobalCtx2::GetPathRelativeToAppDirectory("Randomizer") + "/checktracker_save.json";
+const std::string trackerSaveFilePath =
+    Ship::GlobalCtx2::GetPathRelativeToAppDirectory("Randomizer") + "/checktracker_save.json";
 
 static bool checks[500];
 static bool showSpoilers = false;
@@ -2318,7 +2329,7 @@ void DrawTracker() {
 
             DrawGroupWithBorder([&]() {
                 // for (int i = 0; i < ARRAY_COUNT(gSaveContext.itemLocations); i++) {
-                for (int i = 0; i < 490; i++) {
+                for (int i = 0; i < 500; i++) {
                     if (showAll) {
                         drawCheck(i);
                     } else {
