@@ -2344,26 +2344,35 @@ void DrawTracker() {
         }
 
         if (ImGui::BeginTabItem("Settings")) {
-            if (ImGui::Button("Load")) {
-                if (DoesFileExist(trackerSaveFilePath)) {
-                    std::ifstream ifs(trackerSaveFilePath);
-                    nlohmann::json trackerJsonData = nlohmann::json::parse(ifs);
-                    int i = 0;
-                    for (auto it = trackerJsonData.begin(); it != trackerJsonData.end(); ++it) {
-                        checks[i] = it.value();
-                        i++;
+            ImGui::Text("Tracker Data:");
+             DrawGroupWithBorder([&]() {
+                if (ImGui::Button("Reset")) {
+                    for (int i = 0; i < 500; i++) {
+                        checks[i] = false;
                     }
                 }
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("Save")) {
-                nlohmann::json trackerJsonSave = nlohmann::json::array();
-                for (int i = 0; i < 500; i++) {
-                    trackerJsonSave.push_back(checks[i]);
+                ImGui::SameLine();
+                if (ImGui::Button("Load")) {
+                    if (DoesFileExist(trackerSaveFilePath)) {
+                        std::ifstream ifs(trackerSaveFilePath);
+                        nlohmann::json trackerJsonData = nlohmann::json::parse(ifs);
+                        int i = 0;
+                        for (auto it = trackerJsonData.begin(); it != trackerJsonData.end(); ++it) {
+                            checks[i] = it.value();
+                            i++;
+                        }
+                    }
                 }
-                std::ofstream output(trackerSaveFilePath);
-                output << std::setw(4) << trackerJsonSave << std::endl;
-            }
+                ImGui::SameLine();
+                if (ImGui::Button("Save")) {
+                    nlohmann::json trackerJsonSave = nlohmann::json::array();
+                    for (int i = 0; i < 500; i++) {
+                        trackerJsonSave.push_back(checks[i]);
+                    }
+                    std::ofstream output(trackerSaveFilePath);
+                    output << std::setw(4) << trackerJsonSave << std::endl;
+                }
+            });
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
